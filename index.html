@@ -59,11 +59,11 @@
   /* ---- Title block, styled like a drawing sheet header ---- */
   .titleblock{
     position: relative;
-    background-image: url('images/PDE_Background.png');
+    background-image: url('PDE_Background.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    border: 1.5px solid var(--ink);
+    border: 3px solid #FFFFFF;
     border-radius: var(--radius);
     min-height: 150px;
     overflow: hidden;
@@ -80,7 +80,7 @@
   .titleblock__meta{
     position: absolute;
     right: 20px;
-    bottom: 16px;
+    bottom: 8px;
     display: flex;
     gap: 22px;
     flex-wrap: wrap;
@@ -105,6 +105,22 @@
     font-size: 0.95rem;
     color: #FFFFFF;
   }
+  #term-status{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .dot{
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    vertical-align: middle;
+  }
+  .dot--orange{ background: #E2892A; }
+  .dot--green{ background: #3FA66C; }
 
   /* ---- Grid layout ---- */
   .grid{
@@ -153,6 +169,12 @@
   }
 
   /* ---- Link groups ---- */
+  .linkgroups{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .linkgroups .linkgroup + .linkgroup{ margin-top: 0; }
   .linkgroup + .linkgroup{ margin-top: 20px; }
   .linkgroup h3{
     display:flex;
@@ -208,36 +230,6 @@
   .empty-state p:last-child{ margin-bottom: 0; }
   .empty-state strong{ color: var(--ink); }
 
-  /* ---- Personalize / how-to ---- */
-  details.howto{
-    margin-top: 22px;
-    background: var(--surface);
-    border: var(--border);
-    border-radius: var(--radius);
-    padding: 16px 22px;
-  }
-  details.howto summary{
-    cursor:pointer;
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 600;
-    font-size: 0.98rem;
-  }
-  details.howto ol{
-    margin: 14px 0 4px;
-    padding-left: 20px;
-    font-size: 0.9rem;
-    color: var(--ink-soft);
-  }
-  details.howto li{ margin-bottom: 8px; }
-  details.howto code{
-    background: var(--green-soft);
-    padding: 1px 5px;
-    border-radius: 2px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.82rem;
-    color: var(--ink);
-  }
-
   @media (max-width: 760px){
     .grid{ grid-template-columns: 1fr; }
     .panel--wide{ grid-column: auto; }
@@ -250,6 +242,77 @@
     }
     .titleblock__meta span{ font-size: 0.6rem; }
     .titleblock__meta strong{ font-size: 0.78rem; }
+    .linkgroups{ grid-template-columns: 1fr; gap: 0; }
+    .linkgroups .linkgroup + .linkgroup{ margin-top: 20px; }
+  }
+  .club-banner{
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 3px solid #FFFFFF;
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .club-banner--todo{
+    background-image: url('MS_To-Do.png');
+    aspect-ratio: 1298 / 75;
+  }
+  .club-banner--hiking{
+    background-image: url('Hiking.png');
+    aspect-ratio: 1298 / 245;
+  }
+  .club-banner--team{
+    background-image: url('Team_Loughborough.png');
+    aspect-ratio: 1298 / 245;
+  }
+  .club-banner__overlay{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 22px;
+    background: rgba(28,43,58,0.55);
+    backdrop-filter: blur(2px);
+  }
+  .club-banner__btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 148px;
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    background: #FFFFFF;
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.15s ease;
+  }
+  .club-banner__btn:hover{
+    background: var(--green-soft);
+    color: var(--ink);
+  }
+  @media (max-width: 760px){
+    /* aspect-ratio keeps banners correctly proportioned at all widths */
+    .club-banner__overlay{
+      padding: 0 14px;
+      gap: 8px;
+    }
+    .club-banner__btn{ min-width: 128px; padding: 8px 14px; font-size: 0.82rem; }
+  }
+  @media (max-width: 520px){
+    .club-banner__overlay{
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+    }
   }
 </style>
 </head>
@@ -265,45 +328,33 @@
         <strong id="today">—</strong>
       </div>
       <div>
-        <span>Week of year</span>
+        <span>Term Week</span>
         <strong id="week">—</strong>
       </div>
       <div>
-        <span>Term starts</span>
-        <strong>edit me</strong>
+        <span>Term Status</span>
+        <strong id="term-status"><span class="dot" id="term-status-dot"></span><span id="term-status-text">—</span></strong>
       </div>
     </div>
   </header>
 
   <main class="grid">
 
-    <section class="panel panel--wide" aria-labelledby="cal-heading">
-      <div class="panel__head">
-        <h2 id="cal-heading">This week</h2>
-        <p>Live, auto-synced calendar</p>
-      </div>
-      <div class="cal-frame">
-        <iframe
-          src="https://calendar.google.com/calendar/embed?src=en.uk%23holiday%40group.v.calendar.google.com&ctz=Europe%2FLondon&mode=AGENDA&showTitle=0&showPrint=0&showTabs=0&showCalendars=0"
-          title="Calendar preview — replace with your own"
-          loading="lazy"></iframe>
-      </div>
-      <p class="panel__hint">This is a placeholder calendar. Swap the <code>src</code> in the code for your own Google Calendar ID (or your university timetable's public calendar link) — it'll then update itself automatically whenever you add deadlines, from any device.</p>
-    </section>
-
-    <section class="panel" aria-labelledby="links-heading">
+    <section class="panel panel--wide" aria-labelledby="links-heading">
       <div class="panel__head"><h2 id="links-heading">Quick links</h2></div>
 
+      <div class="linkgroups">
       <div class="linkgroup">
         <h3>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16v4H4z"/><path d="M8 8v12M16 8v12M4 20h16"/></svg>
           University
         </h3>
         <ul>
-          <li><a href="#" data-edit>Student portal <span class="go">↗</span></a></li>
-          <li><a href="#" data-edit>VLE / Moodle <span class="go">↗</span></a></li>
-          <li><a href="#" data-edit>Module timetable <span class="go">↗</span></a></li>
-          <li><a href="#" data-edit>Library catalogue <span class="go">↗</span></a></li>
+          <li><a href="https://learn.lboro.ac.uk/" target="_blank" rel="noopener">Learn <span class="go">↗</span></a></li>
+          <li><a href="https://lsu.co.uk/" target="_blank" rel="noopener">LSU <span class="go">↗</span></a></li>
+          <li><a href="https://www.lboro.ac.uk/study/undergraduate/courses/product-design-engineering-meng/" target="_blank" rel="noopener">Course Page <span class="go">↗</span></a></li>
+          <li><a href="https://lboro.cloud.panopto.eu/Panopto/Pages/Home.aspx" target="_blank" rel="noopener">ReVIEW <span class="go">↗</span></a></li>
+          <li><a href="https://lucas.lboro.ac.uk/its_apx/f?p=250:2:5142098436538:::::" target="_blank" rel="noopener">Timetable <span class="go">↗</span></a></li>
         </ul>
       </div>
 
@@ -313,10 +364,11 @@
           Everyday tools
         </h3>
         <ul>
-          <li><a href="https://mail.google.com" target="_blank" rel="noopener">Gmail <span class="go">↗</span></a></li>
-          <li><a href="https://drive.google.com" target="_blank" rel="noopener">Google Drive <span class="go">↗</span></a></li>
-          <li><a href="https://calendar.google.com" target="_blank" rel="noopener">Google Calendar <span class="go">↗</span></a></li>
-          <li><a href="https://github.com" target="_blank" rel="noopener">GitHub <span class="go">↗</span></a></li>
+          <li><a href="ms-outlook://" data-fallback="https://outlook.office.com/mail/" onclick="return openApp(event, this)">Outlook <span class="go">↗</span></a></li>
+          <li><a href="onedrive://" data-fallback="https://onedrive.live.com/" onclick="return openApp(event, this)">OneDrive <span class="go">↗</span></a></li>
+          <li><a href="https://calendar.google.com/calendar/u/1/r" target="_blank" rel="noopener">Google Calendar <span class="go">↗</span></a></li>
+          <li><a href="https://new.express.adobe.com/" target="_blank" rel="noopener">Adobe Express <span class="go">↗</span></a></li>
+          <li><a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" rel="noopener">Gmail <span class="go">↗</span></a></li>
         </ul>
       </div>
 
@@ -326,51 +378,164 @@
           Engineering toolkit
         </h3>
         <ul>
-          <li><a href="https://www.overleaf.com" target="_blank" rel="noopener">Overleaf (LaTeX) <span class="go">↗</span></a></li>
+          <li><a href="ms-word://" data-fallback="https://www.office.com/launch/word" onclick="return openApp(event, this)">MS Word <span class="go">↗</span></a></li>
           <li><a href="https://www.wolframalpha.com" target="_blank" rel="noopener">Wolfram Alpha <span class="go">↗</span></a></li>
-          <li><a href="https://www.desmos.com/calculator" target="_blank" rel="noopener">Desmos <span class="go">↗</span></a></li>
-          <li><a href="https://www.geogebra.org" target="_blank" rel="noopener">GeoGebra <span class="go">↗</span></a></li>
+          <li><a href="https://www.desmos.com/scientific" target="_blank" rel="noopener">Desmos <span class="go">↗</span></a></li>
+          <li><a href="https://www.youtube.com/channel/UCtFRv9O2AHqOZjjynzrv-xg" target="_blank" rel="noopener">Youtube Education <span class="go">↗</span></a></li>
+          <li><a href="https://www.efunda.com/home.cfm" target="_blank" rel="noopener">efunda <span class="go">↗</span></a></li>
         </ul>
+      </div>
       </div>
     </section>
 
-    <section class="panel panel--wide" aria-labelledby="notes-heading">
+    <section class="panel panel--wide" aria-labelledby="cal-heading">
       <div class="panel__head">
-        <h2 id="notes-heading">Notes &amp; study tracker</h2>
-        <p>Stays in sync across your devices</p>
+        <h2 id="cal-heading">This week</h2>
+        <p>Live, auto-synced calendar</p>
       </div>
-      <div class="empty-state">
-        <p>Nothing connected yet. The most reliable way to get a tracker that's genuinely synced across your phone and laptop, without building a database yourself, is to point this panel at a tool that already syncs: a <strong>Notion</strong> page, <strong>Google Tasks</strong>, or <strong>Todoist</strong>.</p>
-        <p>Open the "Personalize this dashboard" section below for the two-line change that embeds it here.</p>
+      <div class="cal-frame">
+        <iframe
+          src="https://calendar.google.com/calendar/embed?src=cameronmacalister%40gmail.com&ctz=Europe%2FLondon"
+          title="Calendar preview — replace with your own"
+          loading="lazy"></iframe>
+      </div>
+      <p class="panel__hint">Google Calendar ©</p>
+    </section>
+
+
+    <section class="panel--wide" aria-labelledby="notes-heading">
+      <h2 id="notes-heading" class="sr-only">Notes &amp; study tracker</h2>
+      <div class="club-banner club-banner--todo">
+        <div class="club-banner__overlay">
+          <a class="club-banner__btn" href="ms-todo://" data-fallback="https://to-do.office.com/tasks/" onclick="return openApp(event, this)">Open Microsoft To Do <span class="go">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel--wide" aria-labelledby="hiking-heading">
+      <h2 id="hiking-heading" class="sr-only">LSU Hiking Club — Trip Secretary</h2>
+      <div class="club-banner club-banner--hiking">
+        <div class="club-banner__overlay">
+          <a class="club-banner__btn" href="msteams://" data-fallback="https://teams.microsoft.com/" onclick="return openApp(event, this)">Open Teams <span class="go">↗</span></a>
+          <a class="club-banner__btn" href="osmaps://" data-fallback="https://osmaps.osi.ie/" onclick="return openApp(event, this)">Open OS Maps <span class="go">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel--wide" aria-labelledby="team-lboro-heading">
+      <h2 id="team-lboro-heading" class="sr-only">Team Loughborough</h2>
+      <div class="club-banner club-banner--team">
+        <div class="club-banner__overlay">
+          <a class="club-banner__btn" href="https://myhr.lboro.ac.uk/tlive_ess/ess/dist/#/main/home/dashboard" target="_blank" rel="noopener">My HR <span class="go">↗</span></a>
+          <a class="club-banner__btn" href="https://lboro.dashboardtechnology.co.uk/companies/8/home" target="_blank" rel="noopener">Dashboard <span class="go">↗</span></a>
+        </div>
       </div>
     </section>
 
   </main>
 
-  <details class="howto">
-    <summary>Personalize this dashboard</summary>
-    <ol>
-      <li>Calendar: get your Google Calendar's embed link (Calendar settings → your calendar → "Integrate calendar" → Embed code) and replace the <code>iframe src</code> in the "This week" section.</li>
-      <li>Notes: create a Notion page for your task list, click Share → "Share to web", copy the link, and replace the empty-state block in the "Notes &amp; study tracker" section with an <code>&lt;iframe&gt;</code> pointing at that link. Prefer Google Tasks or Todoist instead? Same idea — most let you generate a public or embeddable view.</li>
-      <li>Links: edit the <code>href</code> values marked <code>edit link</code> to point at your actual university portal, VLE and library.</li>
-      <li>Term dates: replace "edit me" in the title block with your real term start date.</li>
-      <li>Title block image: the banner is <code>images/PDE_Background.png</code> — swap that file for a different one any time (keep the filename, or update the <code>background-image</code> URL in the CSS to match).</li>
-    </ol>
-  </details>
-
 </div>
 
 <script>
+  // ---- Try to open a native app via custom URL scheme; fall back to the web link if the app isn't installed ----
+  function openApp(event, link){
+    const fallback = link.getAttribute('data-fallback');
+    if (!fallback) return true; // no fallback configured, let the browser handle it normally
+
+    event.preventDefault();
+    const start = Date.now();
+    let handedOff = false;
+
+    window.location.href = link.href;
+
+    // If the app opens, the tab loses focus/visibility almost immediately.
+    const onBlur = () => { handedOff = true; };
+    window.addEventListener('blur', onBlur, { once: true });
+
+    setTimeout(() => {
+      window.removeEventListener('blur', onBlur);
+      if (!handedOff && Date.now() - start < 2000) {
+        window.open(fallback, '_blank', 'noopener');
+      }
+    }, 800);
+
+    return false;
+  }
+
   const today = new Date();
   document.getElementById('today').textContent = today.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
 
-  // ISO week number
-  const d = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()));
-  const dayNum = d.getUTCDay() || 7;
-  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-  document.getElementById('week').textContent = 'Week ' + weekNo;
+  // ---- Term week (2026/27 academic calendar) ----
+  const MS_DAY = 86400000;
+  const asUTC = (y, m, d) => new Date(Date.UTC(y, m - 1, d));
+  const inRange = (date, start, end) => date >= start && date <= end;
+
+  // Semester 1 & 2 dates — week numbering resets to 1 at the start of each
+  const semesters = [
+    { start: asUTC(2026, 9, 28), end: asUTC(2027, 2, 5) },  // Semester 1
+    { start: asUTC(2027, 2, 8), end: asUTC(2027, 6, 9) }    // Semester 2
+  ];
+  // University closures — these days show "Break" and don't count toward the week number
+  const closures = [
+    { start: asUTC(2026, 12, 24), end: asUTC(2027, 1, 1) },  // Christmas / New Year
+    { start: asUTC(2027, 3, 26), end: asUTC(2027, 3, 30) },  // Easter
+    { start: asUTC(2027, 5, 3), end: asUTC(2027, 5, 3) },    // May Bank Holiday
+    { start: asUTC(2027, 5, 31), end: asUTC(2027, 5, 31) }   // Spring Bank Holiday
+  ];
+
+  function termWeekLabel(now){
+    const day = asUTC(now.getFullYear(), now.getMonth() + 1, now.getDate());
+    const semester = semesters.find(s => inRange(day, s.start, s.end));
+    if (!semester) return 'Break';
+    if (closures.some(c => inRange(day, c.start, c.end))) return 'Break';
+
+    // Count elapsed days since the semester started, minus any closure days passed so far
+    let elapsed = Math.round((day - semester.start) / MS_DAY);
+    closures.forEach(c => {
+      const overlapStart = c.start > semester.start ? c.start : semester.start;
+      const overlapEnd = c.end < day ? c.end : day;
+      if (overlapStart <= overlapEnd){
+        elapsed -= Math.round((overlapEnd - overlapStart) / MS_DAY) + 1;
+      }
+    });
+    return 'Week ' + (Math.floor(elapsed / 7) + 1);
+  }
+
+  document.getElementById('week').textContent = termWeekLabel(today);
+
+  // ---- Term status: Active (green dot) or Break with next start date (orange dot) ----
+  function termStatus(now){
+    const day = asUTC(now.getFullYear(), now.getMonth() + 1, now.getDate());
+
+    if (day < semesters[0].start) return { active: false, next: semesters[0].start };
+
+    for (const semester of semesters){
+      if (inRange(day, semester.start, semester.end)){
+        const closure = closures.find(c => inRange(day, c.start, c.end));
+        if (closure) return { active: false, next: new Date(closure.end.getTime() + MS_DAY) };
+        return { active: true, next: null };
+      }
+    }
+
+    if (day > semesters[0].end && day < semesters[1].start) return { active: false, next: semesters[1].start };
+
+    return { active: false, next: null }; // beyond the last known semester
+  }
+
+  const status = termStatus(today);
+  const dotEl = document.getElementById('term-status-dot');
+  const textEl = document.getElementById('term-status-text');
+
+  if (status.active){
+    dotEl.className = 'dot dot--green';
+    textEl.textContent = 'Active';
+  } else if (status.next){
+    dotEl.className = 'dot dot--orange';
+    textEl.textContent = status.next.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' });
+  } else {
+    dotEl.className = 'dot dot--orange';
+    textEl.textContent = 'TBC';
+  }
 </script>
 </body>
 </html>
