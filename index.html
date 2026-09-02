@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Engineering Studies — Dashboard</title>
+<link rel="icon" type="image/x-icon" href="images/favicon.ico">
+<link rel="icon" type="image/png" href="images/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
@@ -59,7 +61,7 @@
   /* ---- Title block, styled like a drawing sheet header ---- */
   .titleblock{
     position: relative;
-    background-image: url('images/PDE_Background.png');
+    background-image: url('PDE_Background.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -395,11 +397,11 @@
       </div>
       <div class="cal-frame">
         <iframe
-          src="https://calendar.google.com/calendar/embed?src=cameronmacalister%40gmail.com&ctz=Europe%2FLondon"
+          src="https://calendar.google.com/calendar/embed?src=en.uk%23holiday%40group.v.calendar.google.com&ctz=Europe%2FLondon&mode=AGENDA&showTitle=0&showPrint=0&showTabs=0&showCalendars=0"
           title="Calendar preview — replace with your own"
           loading="lazy"></iframe>
       </div>
-      <p class="panel__hint">Google Calendar ©</p>
+      <p class="panel__hint">This is a placeholder calendar. Swap the <code>src</code> in the code for your own Google Calendar ID (or your university timetable's public calendar link) — it'll then update itself automatically whenever you add deadlines, from any device.</p>
     </section>
 
 
@@ -417,7 +419,7 @@
       <div class="club-banner club-banner--hiking">
         <div class="club-banner__overlay">
           <a class="club-banner__btn" href="msteams://" data-fallback="https://teams.microsoft.com/" onclick="return openApp(event, this)">Open Teams <span class="go">↗</span></a>
-          <a class="club-banner__btn" href="osmaps://" data-fallback="https://explore.osmaps.com/?lat=41.50433&lon=2.21665&zoom=11.7269&overlays=os-obstacles-layer&style=Standard&type=2d" onclick="return openApp(event, this)">Open OS Maps <span class="go">↗</span></a>
+          <a class="club-banner__btn" href="osmaps://" data-fallback="https://osmaps.osi.ie/" onclick="return openApp(event, this)">Open OS Maps <span class="go">↗</span></a>
         </div>
       </div>
     </section>
